@@ -1,0 +1,329 @@
+## 找到原始 index 的 mapping
+curl -X PUT "`hostname`:9200/gl_user_daily_report?pretty" -H 'Content-Type: application/json' -d'
+{
+    "settings" : {
+      "index" : {
+        "number_of_shards" : "3",
+        "max_result_window" : "1000000",
+        "number_of_replicas" : "1"
+      }
+    }, 
+    "mappings": {
+        "properties" : {
+            "addTotal" : {
+            "type" : "double"
+            },
+            "addTotalNoPorfit" : {
+            "type" : "double"
+            },
+            "adminGift" : {
+            "type" : "double"
+            },
+            "balance" : {
+            "type" : "double"
+            },
+            "betCount" : {
+            "type" : "long"
+            },
+            "betTotal" : {
+            "type" : "double"
+            },
+            "bonusTotal" : {
+            "type" : "double"
+            },
+            "day" : {
+            "type" : "date"
+            },
+            "disTotal" : {
+            "type" : "double"
+            },
+            "effectiveAmount" : {
+            "type" : "double"
+            },
+            "effectiveBetAmount" : {
+            "type" : "double"
+            },
+            "effectiveBetCount" : {
+            "type" : "long"
+            },
+            "firstRechargeTotal" : {
+            "type" : "double"
+            },
+            "id" : {
+            "type" : "text",
+            "fields" : {
+                "keyword" : {
+                "type" : "keyword",
+                "ignore_above" : 256
+                }
+            }
+            },
+            "loginCount" : {
+            "type" : "long"
+            },
+            "noSettlementAmount" : {
+            "type" : "double"
+            },
+            "parentId" : {
+            "type" : "long"
+            },
+            "parentName" : {
+            "type" : "text",
+            "fields" : {
+                "keyword" : {
+                "type" : "keyword",
+                "ignore_above" : 256
+                }
+            }
+            },
+            "parentUser" : {
+            "type" : "text",
+            "fields" : {
+                "keyword" : {
+                "type" : "keyword",
+                "ignore_above" : 256
+                }
+            }
+            },
+            "parentUserId" : {
+            "type" : "long"
+            },
+            "payoutTotal" : {
+            "type" : "double"
+            },
+            "profitTotal" : {
+            "type" : "double"
+            },
+            "rebateTotal" : {
+            "type" : "double"
+            },
+            "rechargeAddPoint" : {
+            "type" : "double"
+            },
+            "rechargeCount" : {
+            "type" : "long"
+            },
+            "rechargeFee" : {
+            "type" : "double"
+            },
+            "rechargeReducePoint" : {
+            "type" : "double"
+            },
+            "rechargeTotal" : {
+            "type" : "double"
+            },
+            "redPacket" : {
+            "type" : "double"
+            },
+            "registerDate" : {
+            "type" : "date"
+            },
+            "sourceCode" : {
+            "type" : "text",
+            "fields" : {
+                "keyword" : {
+                "type" : "keyword",
+                "ignore_above" : 256
+                }
+            }
+            },
+            "sourceId" : {
+            "type" : "long"
+            },
+            "sportEffectiveBetAmount" : {
+            "type" : "double"
+            },
+            "updateTime" : {
+            "type" : "date"
+            },
+            "userId" : {
+            "type" : "long"
+            },
+            "userType" : {
+            "type" : "long"
+            },
+            "username" : {
+            "type" : "text",
+            "fields" : {
+                "keyword" : {
+                "type" : "keyword",
+                "ignore_above" : 256
+                }
+            }
+            },
+            "winTotal" : {
+            "type" : "double"
+            },
+            "withdrawCount" : {
+            "type" : "long"
+            },
+            "withdrawFee" : {
+            "type" : "double"
+            },
+            "withdrawTotal" : {
+            "type" : "double"
+            }
+        }
+    }
+}
+    }'
+
+## 將上面得到的資訊，寫到新的 index 的 mapping
+curl -X PUT "`hostname`:9200/gl_user_daily_report_tmp/_mapping/all?pretty" -H 'Content-Type: application/json' -d'
+{
+        "properties" : {
+          "addTotal" : {
+            "type" : "double"
+          },
+          "addTotalNoPorfit" : {
+            "type" : "double"
+          },
+          "adminGift" : {
+            "type" : "double"
+          },
+          "balance" : {
+            "type" : "double"
+          },
+          "betCount" : {
+            "type" : "long"
+          },
+          "betTotal" : {
+            "type" : "double"
+          },
+          "bonusTotal" : {
+            "type" : "double"
+          },
+          "day" : {
+            "type" : "date"
+          },
+          "disTotal" : {
+            "type" : "double"
+          },
+          "effectiveAmount" : {
+            "type" : "double"
+          },
+          "effectiveBetAmount" : {
+            "type" : "double"
+          },
+          "effectiveBetCount" : {
+            "type" : "long"
+          },
+          "firstRechargeTotal" : {
+            "type" : "double"
+          },
+          "id" : {
+            "type" : "text",
+            "fields" : {
+              "keyword" : {
+                "type" : "keyword",
+                "ignore_above" : 256
+              }
+            }
+          },
+          "loginCount" : {
+            "type" : "long"
+          },
+          "noSettlementAmount" : {
+            "type" : "double"
+          },
+          "parentId" : {
+            "type" : "long"
+          },
+          "parentName" : {
+            "type" : "text",
+            "fields" : {
+              "keyword" : {
+                "type" : "keyword",
+                "ignore_above" : 256
+              }
+            }
+          },
+          "parentUser" : {
+            "type" : "text",
+            "fields" : {
+              "keyword" : {
+                "type" : "keyword",
+                "ignore_above" : 256
+              }
+            }
+          },
+          "parentUserId" : {
+            "type" : "long"
+          },
+          "payoutTotal" : {
+            "type" : "double"
+          },
+          "profitTotal" : {
+            "type" : "double"
+          },
+          "rebateTotal" : {
+            "type" : "double"
+          },
+          "rechargeAddPoint" : {
+            "type" : "double"
+          },
+          "rechargeCount" : {
+            "type" : "long"
+          },
+          "rechargeFee" : {
+            "type" : "double"
+          },
+          "rechargeReducePoint" : {
+            "type" : "double"
+          },
+          "rechargeTotal" : {
+            "type" : "double"
+          },
+          "redPacket" : {
+            "type" : "double"
+          },
+          "registerDate" : {
+            "type" : "date"
+          },
+          "sourceCode" : {
+            "type" : "text",
+            "fields" : {
+              "keyword" : {
+                "type" : "keyword",
+                "ignore_above" : 256
+              }
+            }
+          },
+          "sourceId" : {
+            "type" : "long"
+          },
+          "sportEffectiveBetAmount" : {
+            "type" : "double"
+          },
+          "updateTime" : {
+            "type" : "date"
+          },
+          "userId" : {
+            "type" : "long"
+          },
+          "userType" : {
+            "type" : "long"
+          },
+          "username" : {
+            "type" : "text",
+            "fields" : {
+              "keyword" : {
+                "type" : "keyword",
+                "ignore_above" : 256
+              }
+            }
+          },
+          "winTotal" : {
+            "type" : "double"
+          },
+          "withdrawCount" : {
+            "type" : "long"
+          },
+          "withdrawFee" : {
+            "type" : "double"
+          },
+          "withdrawTotal" : {
+            "type" : "double"
+          }
+        }
+}'
