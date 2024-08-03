@@ -3,9 +3,9 @@
 # Project: Execute the PostgreSQL file
 # Branch: 
 # Author: Gok, the DBA
-# Created: 2023-11-08
-# Updated: 2024-01-31
-# Note: 優化 port-forward 建立機制
+# Created: 2024-02-07
+# Updated: 2024-02-07
+# Note: port-forward 從本 script 分開
 #################################################
 
 #user=`whoami`
@@ -77,21 +77,14 @@ then
 
     if [[ -z $port ]];
     then
-        ## 取得 port-forward 資訊
-        svc=`kubectl get service -n sqlproxy | awk '{print $1}' | grep master | grep $stage`
-        GetPort
-
-        ## 進行 port-forward 連線
-        kubectl -n sqlproxy port-forward service/$svc $port:5432 &
-    
-        ## 執行 SQL 檔案
+        echo '請先執行「3.0-PROD PostgreSQL 連線設置」，再回來執行「3.0-PROD PostgreSQL 語法執行」'
+        exit 0
+    else
+        echo 執行 SQL 檔案
         PGPASSWORD=$pass psql -h localhost -p $port -U $puser postgres -f $jars/update.sql
 
-        ## Kill Process
-        ps -aux | grep port-forward | grep $port | awk '{print $2}' | xargs kill 2> /dev/null
-    else
-        ## 執行 SQL 檔案
-        PGPASSWORD=$pass psql -h localhost -p $port -U $puser postgres -f $jars/update.sql 
+        # echo Kill Process
+        #ps -aux | grep port-forward | grep $port | awk '{print $2}' | sudo xargs kill 2> /dev/null
     fi
 
 elif [[ $stage == 'cs' ]];    
@@ -102,25 +95,22 @@ then
 
     if [[ -z $port ]];
     then
-        ## 取得 port-forward 資訊
-        svc=`kubectl get service -n sqlproxy | awk '{print $1}' | grep master | grep $stage`
-        GetPort
+        echo '請先執行「3.0-PROD PostgreSQL 連線設置」，再回來執行「3.0-PROD PostgreSQL 語法執行」'
+        exit 0
 
-        ## 進行 port-forward 連線
-        kubectl -n sqlproxy port-forward service/$svc $port:5432 &
-
-        ## 執行 SQL 檔案
+    else
+        echo 執行 SQL 檔案
         PGPASSWORD=$pass psql -h localhost -p $port -U $puser postgres -f $jars/update.sql
 
-        ## Kill Process
-        ps -aux | grep port-forward | grep $port | awk '{print $2}' | xargs kill 2> /dev/null
-    else
-        ## 執行 SQL 檔案
-        PGPASSWORD=$pass psql -h localhost -p $port -U $puser postgres -f $jars/update.sql 
+        # echo Kill Process
+        #ps -aux | grep port-forward | grep $port | awk '{print $2}' | sudo xargs kill 2> /dev/null
     fi
+
 else
     echo no this stage
 fi
+
+
 
 ## 僅保留前一個月的所有 SQL 檔案
 rm -rf $jars/crud/postgres/`date -d "-2 month" +"%Y-%m"`*
