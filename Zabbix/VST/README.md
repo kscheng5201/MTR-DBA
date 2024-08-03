@@ -1,0 +1,2 @@
+# VST
+Zabbix alertscript synchronization
