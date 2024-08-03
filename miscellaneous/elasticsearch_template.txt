@@ -1,0 +1,121 @@
+PUT _template/service-info-logs
+{
+  "index_patterns": ["service-info-logs*"],
+  "settings": {
+    "number_of_shards": 1
+  },
+  "mappings": {
+    "_doc": {
+      "dynamic_templates": [
+        {
+          "internal_fields": {
+            "match": "gl2_*",
+            "match_mapping_type": "string",
+            "mapping": {
+              "type": "keyword"
+            }
+          }
+        },
+        {
+          "store_generic": {
+            "match_mapping_type": "string",
+            "mapping": {
+              "type": "keyword"
+            }
+          }
+        }
+      ],
+      "properties": {
+        "@timestamp": {
+          "type": "date"
+        },
+        "@version": {
+          "type": "keyword"
+        },
+        "agent": {
+          "type": "keyword"
+        },
+        "cloud": {
+          "type": "keyword"
+        },
+        "container": {
+          "type": "keyword"
+        },
+        "ecs": {
+          "type": "keyword"
+        },
+        "event": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "fields": {
+          "type": "keyword"
+        },
+        "full_message": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "gl2_accounted_message_size": {
+          "type": "long"
+        },
+        "gl2_message_id": {
+          "type": "keyword"
+        },
+        "gl2_processing_error": {
+          "type": "keyword"
+        },
+        "gl2_processing_timestamp": {
+          "type": "date",
+          "format": "uuuu-MM-dd HH:mm:ss.SSS"
+        },
+        "gl2_receive_timestamp": {
+          "type": "date",
+          "format": "uuuu-MM-dd HH:mm:ss.SSS"
+        },
+        "gl2_source_input": {
+          "type": "keyword"
+        },
+        "gl2_source_node": {
+          "type": "keyword"
+        },
+        "host": {
+          "type": "keyword"
+        },
+        "hostname": {
+          "type": "keyword"
+        },
+        "input": {
+          "type": "keyword"
+        },
+        "log": {
+          "type": "keyword"
+        },
+        "log_file_path": {
+          "type": "keyword"
+        },
+        "message": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "service": {
+          "type": "keyword"
+        },
+        "source": {
+          "type": "text",
+          "analyzer": "analyzer_keyword",
+          "fielddata": true
+        },
+        "streams": {
+          "type": "keyword"
+        },
+        "tags": {
+          "type": "keyword"
+        },
+        "timestamp": {
+          "type": "date",
+          "format": "uuuu-MM-dd HH:mm:ss.SSS"
+        }
+      }
+    }
+  }
+}
