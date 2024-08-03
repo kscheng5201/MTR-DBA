@@ -1,1 +1,0 @@
-SELECT * FROM sian_user.user_info where nick_name like '%糖&糖%'  and sa_id=492625
